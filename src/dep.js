@@ -1,3 +1,3 @@
 module.exports = {
-  i11e: require('../i11e');
+  i11e: require('../../i11e-core')
 }

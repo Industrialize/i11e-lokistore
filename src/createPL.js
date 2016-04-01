@@ -1,26 +1,39 @@
 const dep = require('./dep');
+var BoxValidationRobot = require('./dep').i11e.Robots.BoxValidationRobot;
+var CreateDataRobot = require('./CreateDataRobot');
+const loki = require('lokijs');
+
+var db = new loki('./db.loki');
 
 module.exports = (dbReqPort, errHandler) => {
   dbReqPort.in().fork()
     .accept({$cmd: 'db.create'})
-    .checkpoint({
-      cmd: 'db.create',
-      "collection&": "data collection string",
-      "object!": "could be any object, could not be null"
-    })
-    .robot(ValidateRobot(["collection", "object"]))
-    .checkpoint({
-      cmd: 'db.create',
-      "collection&": "data collection string",
-      "object!": "could be any object, could not be null",
+    .robot(BoxValidationRobot({
+      $cmd: 'db.create',
+      "collection&": "user",
+      "object!": {
+        email: 'test@test.com',
+        password: 'pwd',
+        name: 'john'
+      },
       "id^": "must NOT have id"
-    })
-    .robot(CreateDataRobot())
+    }))
+    .robot(CreateDataRobot({db: db}))
     .checkpoint({
-      cmd: 'db.create',
-      "collection&": "data collection string",
-      "object!": "could be any object, could not be null",
+      $cmd: 'db.create',
+      "collection&": "user",
+      "object!": {
+        email: 'test@test.com',
+        password: 'pwd',
+        name: 'john'
+      },
       "id!": "must have an id"
+    })
+    .errors((err, rethrow) => {
+      if (errHandler) {
+        errHandler(err);
+      }
+      rethrow(err.source);
     })
     .return(dbReqPort)
     .errors((err) => {
