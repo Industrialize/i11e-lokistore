@@ -1,4 +1,4 @@
-const i11e = require('./dep').i11e;
+const i11e = require('../dep').i11e;
 const loki = require('lokijs');
 
 module.exports  = i11e.createRobot({
@@ -9,6 +9,10 @@ module.exports  = i11e.createRobot({
     } else {
       this.db = this.options.db;
     }
+  },
+
+  getModel() {
+    return 'CreateDataRobot';
   },
 
   process(box, done) {

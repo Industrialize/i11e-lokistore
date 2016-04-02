@@ -1,6 +1,6 @@
-const dep = require('./dep');
-var BoxValidationRobot = require('./dep').i11e.Robots.BoxValidationRobot;
-var CreateDataRobot = require('./CreateDataRobot');
+const dep = require('../dep');
+var BoxValidationRobot = require('../dep').i11e.Robots.BoxValidationRobot;
+var CreateDataRobot = require('../robots/CreateDataRobot');
 const loki = require('lokijs');
 
 var db = new loki('./db.loki');

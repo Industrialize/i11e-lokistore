@@ -22,11 +22,19 @@ module.exports = {
 
   Robots: {
     CreateDataRobot: (options) => {
-      return new require('./lib/CreateDataRobot')(options);
+      return new require('./lib/robots/CreateDataRobot')(options);
     },
 
-    FindDataRobot: (options) => {
-      return new require('./lib/FindDataRobot')(options);
+    ReadDataRobot: (options) => {
+      return new require('./lib/robots/ReadDataRobot')(options);
+    },
+
+    UpdateDataRobot: (options) => {
+      return new require('./lib/robots/UpdateDataRobot')(options);
+    },
+
+    DeleteDataRobot: (options) => {
+      return new require('./lib/robots/DeleteDataRobot')(options);
     }
   }
 }
