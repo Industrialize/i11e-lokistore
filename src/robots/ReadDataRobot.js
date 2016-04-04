@@ -1,11 +1,16 @@
 const i11e = require('../dep').i11e;
 const loki = require('lokijs');
-
+var dbPool = require('./dbPool');
 module.exports  = i11e.createRobot({
   initRobot() {
     // init loki store
     if (typeof this.options.db === 'string') {
-      this.db = new loki(this.options.db);
+      if (dbPool[this.options.db]) {
+        return dbPool[this.options.db];
+      }
+      dbPool[this.options.db] = new loki(this.options.db);
+
+      this.db = dbPool[this.options.db];
     } else {
       this.db = this.options.db;
     }
