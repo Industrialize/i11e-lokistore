@@ -1,7 +1,7 @@
 exports['testCreatePL'] = {
   'test production line: create': (test) => {
     const i11e = require('../lib/dep').i11e;
-    const createPL = require('../lib/prodlines/createPL');
+    const createDataPL = require('../lib/prodlines/createPL');
     const Box = i11e.Box;
     const Port = i11e.Port;
 
@@ -9,11 +9,7 @@ exports['testCreatePL'] = {
       mode: i11e.Constants.IN
     });
 
-    var pl = createPL(input, (err) => {
-      console.error(err.message);
-      test.ok(false, err.message, err.source);
-      test.done();
-    });
+    var pl = createDataPL().pipeline(input, (err) => {});
 
     input.send({
       $cmd: 'db.create',
@@ -24,6 +20,10 @@ exports['testCreatePL'] = {
         password: 'pwd'
       }
     }, (err, result) => {
+      if (err) {
+        console.error(err.message);
+      }
+
       test.ok(!err);
 
       test.ok(result.get('id') != null);

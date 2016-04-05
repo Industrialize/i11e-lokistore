@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "clean": "rm -R lib",
     "build": "babel src -d lib",
     "test": "nodeunit test"
   },
